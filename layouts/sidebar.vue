@@ -3,7 +3,7 @@
     <div class="xl:py-10 sidebar-layout">
       <div class="group relative sidebar-item with-children">
         <nuxt-link
-          to="/home"
+          to="/dashboard"
           class="block xl:flex xl:items-center text-center xl:text-left shadow-light xl:shadow-none py-6 xl:py-2 xl:px-4 border-l-4 border-transparent hover:bg-gray-800"
         >
           <i class="mdi mdi-view-dashboard text-white px-2"></i>
@@ -54,7 +54,7 @@
           to="/"
           class="block xl:flex xl:items-center text-center xl:text-left shadow-light xl:shadow-none py-6 xl:py-2 xl:px-4 border-l-4 border-transparent hover:bg-gray-800"
         >
-          <i class="mdi  mdi-logout mdi-38px text-white px-2"></i>
+          <i class="mdi mdi-logout mdi-38px text-white px-2"></i>
           <div class="text-white text-base">Logout</div>
         </nuxt-link>
       </div>

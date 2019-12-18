@@ -1,5 +1,8 @@
+require('dotenv').config()
+
 export default {
   mode: 'universal',
+
   /*
    ** Headers of the page
    */
@@ -65,7 +68,9 @@ export default {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL: process.env.API_BASE_URL
+  },
   /*
    ** Build configuration
    */

@@ -15,9 +15,10 @@
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^15.0.0",
     "@ckeditor/ckeditor5-vue": "^1.0.0",
-    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/axios": "^5.9.0",
     "@nuxtjs/pwa": "^3.0.0-0",
     "chart.js": "^2.9.3",
+    "dotenv": "^8.2.0",
     "hchs-vue-charts": "^1.2.8",
     "nuxt": "^2.0.0"
   },

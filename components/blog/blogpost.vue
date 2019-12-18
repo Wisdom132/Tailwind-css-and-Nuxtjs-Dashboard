@@ -13,12 +13,16 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="border px-4 py-2">1</td>
-            <td class="border px-4 py-2">This is the title of the blog Post</td>
-            <td class="border px-4 py-2">Adam</td>
-            <td class="border px-4 py-2">858</td>
-            <td class="border px-4 py-2">Adam</td>
+          <tr v-for="(post, index) in posts" :key="index">
+            <td class="border px-4 py-2">{{ parseInt(index + 1) }}</td>
+            <td class="border px-4 py-2">{{ post.title }}</td>
+            <td class="border px-4 py-2">{{ post.dateCreated }}</td>
+            <td class="border px-4 py-2">
+              <span v-for="(data, index) in post.tags" :key="index">
+                {{ data }}
+              </span>
+            </td>
+            <td class="border px-4 py-2">{{ post.category.title }}</td>
             <td class="border px-4 py-2">
               <button
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
@@ -34,7 +38,27 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      posts: []
+    }
+  },
+  methods: {
+    async getBlogPost() {
+      try {
+        let response = await this.$axios.get('blog')
+        this.posts = response.data.data
+        console.log(this.posts)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  },
+  created() {
+    this.getBlogPost()
+  }
+}
 </script>
 
 <style scoped></style>

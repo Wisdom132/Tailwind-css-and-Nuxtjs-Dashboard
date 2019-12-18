@@ -2,7 +2,7 @@
   <section>
     <div class="px-6 py-10">
       <div class="flex flex-wrap -mx-2">
-        <div class="w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:1/3 mb-5  px-2">
+        <div class="w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:1/3 mb-5 px-2">
           <div class="bg-gray-400 h-100%">
             <div class="bg-white">
               <div
@@ -10,18 +10,21 @@
               >
                 Add Custome Category
               </div>
-              <form class="bg-white shadow-md rounded px-3 pt-6 pb-8 mb-4">
+              <form
+                class="bg-white shadow-md rounded px-3 pt-6 pb-8 mb-4"
+                @submit.prevent="addNewCategory"
+              >
                 <div class="mb-4">
                   <label
                     class="block text-gray-700 text-sm text-left font-bold mb-2"
                     for="username"
+                    >Title</label
                   >
-                    Title
-                  </label>
                   <input
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="username"
                     type="text"
+                    v-model="category.title"
                     placeholder="Title"
                   />
                 </div>
@@ -30,20 +33,20 @@
                   <label
                     class="block text-gray-700 text-sm text-left font-bold mb-2"
                     for="username"
+                    >Description</label
                   >
-                    Description
-                  </label>
                   <textarea
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     placeholder="Your Category Description"
                     rows="6"
+                    v-model="category.description"
                   ></textarea>
                 </div>
 
                 <div class="flex items-center justify-between">
                   <button
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    type="button"
+                    type="submit"
                   >
                     Add
                   </button>
@@ -52,29 +55,29 @@
             </div>
           </div>
         </div>
-        <div class="w-full sm:w-1/2 md:w-1/2 lg:w-2/3 xl:w-2/3 mb-5  px-2">
+        <div class="w-full sm:w-1/2 md:w-1/2 lg:w-2/3 xl:w-2/3 mb-5 px-2">
           <div class="bg-gray-400 h-100%">
-            <div class="bg-white ">
-              <table class="table-fixed w-full border-collapse">
+            <div class="bg-white">
+              <table class="table-auto w-full border-collapse">
                 <thead class="bg-gray-300">
                   <tr>
                     <th class="px-4 py-2">Index</th>
                     <th class="px-4 py-2">Title</th>
-                    <th class="px-4 py-2">Date Posted</th>
-                    <th class="px-4 py-2">Tags</th>
-                    <th class="px-4 py-2">Category</th>
+                    <th class="px-4 py-2">Description</th>
+
+                    <th class="px-4 py-2">Date Created</th>
                     <th class="px-4 py-2">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="border px-4 py-2">1</td>
+                  <tr v-for="(category, index) in categories" :key="index">
+                    <td class="border px-4 py-2">{{ parseInt(index + 1) }}</td>
                     <td class="border px-4 py-2">
-                      This is the title of the blog Post
+                      {{ category.title }}
                     </td>
-                    <td class="border px-4 py-2">Adam</td>
-                    <td class="border px-4 py-2">858</td>
-                    <td class="border px-4 py-2">Adam</td>
+                    <td class="border px-4 py-2">{{ category.description }}</td>
+                    <td class="border px-4 py-2">{{ category.dateCreated }}</td>
+
                     <td class="border px-4 py-2">
                       <button
                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
@@ -94,7 +97,40 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      categories: [],
+      category: {
+        title: '',
+        description: ''
+      }
+    }
+  },
+  methods: {
+    async getAllCategories() {
+      try {
+        let response = await this.$axios.get('category')
+        this.categories = response.data.data
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async addNewCategory() {
+      try {
+        let response = await this.$axios.post('category', this.category)
+        console.log(response)
+        this.getAllCategories()
+        this.category = {}
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  },
+  created() {
+    this.getAllCategories()
+  }
+}
 </script>
 
 <style scoped></style>

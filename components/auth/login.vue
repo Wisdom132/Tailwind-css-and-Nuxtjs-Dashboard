@@ -1,3 +1,4 @@
+/* eslint-disable vue/attributes-order */
 <template>
   <div id="body">
     <div class="container" id="container">
@@ -232,7 +233,7 @@ form {
   overflow: hidden;
   width: 768px;
   max-width: 100%;
-  min-height: 480px;
+  min-height: 520px;
 }
 .form-container {
   position: absolute;
