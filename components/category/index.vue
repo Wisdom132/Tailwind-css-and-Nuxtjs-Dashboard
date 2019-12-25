@@ -57,7 +57,10 @@
         </div>
         <div class="w-full sm:w-1/2 md:w-1/2 lg:w-2/3 xl:w-2/3 mb-5 px-2">
           <div class="bg-gray-400 h-100%">
-            <div class="bg-white">
+            <div v-if="loading">
+              <loader />
+            </div>
+            <div class="bg-white" v-else>
               <table class="table-auto w-full border-collapse">
                 <thead class="bg-gray-300">
                   <tr>
@@ -76,7 +79,7 @@
                       {{ category.title }}
                     </td>
                     <td class="border px-4 py-2">{{ category.description }}</td>
-                    <td class="border px-4 py-2">{{ category.dateCreated }}</td>
+                    <td class="border px-4 py-2">{{ category.dateCreated | moment }}</td>
 
                     <td class="border px-4 py-2">
                       <button
@@ -97,9 +100,20 @@
 </template>
 
 <script>
+import loader from '@/components/loader/loader'
+import moment from 'moment'
 export default {
+  components:{
+    loader
+  },
+   filters: {
+    moment: function(date) {
+      return moment(date).format('MMMM Do YYYY')
+    }
+  },
   data() {
     return {
+      loading:false,
       categories: [],
       category: {
         title: '',
@@ -109,11 +123,14 @@ export default {
   },
   methods: {
     async getAllCategories() {
+      this.loading = true
       try {
         let response = await this.$axios.get('category')
         this.categories = response.data.data
+        this.loading = false
       } catch (err) {
         console.log(err)
+        this.loading = false
       }
     },
     async addNewCategory() {

@@ -19,12 +19,19 @@
   </div>
 </template>
 <script>
+import auth from '../utils/auth'
 import navbar from '@/layouts/navbar'
 import sidebar from '@/layouts/sidebar'
 export default {
   components: {
     'nav-bar': navbar,
     'side-bar': sidebar
+  },
+
+  created() {
+    if (!auth.userIsLogged()) {
+      this.$router.push('/login')
+    }
   }
 }
 </script>

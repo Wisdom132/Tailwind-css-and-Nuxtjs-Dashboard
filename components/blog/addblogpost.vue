@@ -119,9 +119,7 @@ export default {
         content: ''
       },
       editor: ClassicEditor,
-      editorConfig: {
-        // The configuration of the editor.
-      }
+      editorConfig: {}
     }
   },
   methods: {

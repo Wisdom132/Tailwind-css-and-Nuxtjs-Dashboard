@@ -1,6 +1,9 @@
 <template>
   <section class="w-full w-1/2 px-6">
-    <div class="bg-white ">
+    <div v-if="loading">
+      <loader />
+    </div>
+    <div class="bg-white" v-else>
       <table class="table-auto w-full border-collapse">
         <thead class="bg-gray-300">
           <tr>
@@ -12,11 +15,12 @@
             <th class="px-4 py-2">Action</th>
           </tr>
         </thead>
+
         <tbody>
           <tr v-for="(post, index) in posts" :key="index">
             <td class="border px-4 py-2">{{ parseInt(index + 1) }}</td>
             <td class="border px-4 py-2">{{ post.title }}</td>
-            <td class="border px-4 py-2">{{ post.dateCreated }}</td>
+            <td class="border px-4 py-2">{{ post.dateCreated | moment }}</td>
             <td class="border px-4 py-2">
               <span v-for="(data, index) in post.tags" :key="index">
                 {{ data }}
@@ -38,19 +42,33 @@
 </template>
 
 <script>
+import loader from '@/components/loader/loader'
+import moment from 'moment'
 export default {
+  components: {
+    loader
+  },
+   filters: {
+    moment: function(date) {
+      return moment(date).format('MMMM Do YYYY')
+    }
+  },
   data() {
     return {
+      loading: false,
       posts: []
     }
   },
   methods: {
     async getBlogPost() {
+      this.loading = true
       try {
         let response = await this.$axios.get('blog')
         this.posts = response.data.data
+        this.loading = false
         console.log(this.posts)
       } catch (err) {
+        this.loading = false
         console.log(err)
       }
     }

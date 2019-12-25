@@ -32,57 +32,49 @@
         </form>
       </div>
     </div>
-    <div class="flex items-center h-full text-sm">
-      <div class="flex items-center h-full">
-        <a href="#" class="flex items-center text-white h-full px-4">Support</a>
-        <div class="group relative h-full">
-          <a
-            href="#"
-            class="text-white flex items-center h-full bg-grey-darkest px-4"
-          >
-            Account
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-              class="h-6 w-6 text-grey-darker fill-current ml-1"
-            >
-              <path
-                class="heroicon-ui"
-                d="M15.3 9.3a1 1 0 0 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 1.4-1.4l3.3 3.29 3.3-3.3z"
-              />
-            </svg>
-          </a>
-          <div
-            class="hidden group-hover:block absolute pin-r top-full w-48 bg-black"
-          >
-            <a
-              href="#"
-              class="block text-left py-3 px-3 text-white hover:text-blue-dark text-xs"
-            >
-              My Account
-            </a>
-            <a
-              href="#"
-              class="block text-left py-3 px-3 text-white hover:text-blue-dark text-xs"
-            >
-              Edit Account
-            </a>
-            <a
-              href="#"
-              class="block text-left py-3 px-3 text-white hover:text-blue-dark text-xs"
-            >
-              Logout
-            </a>
-          </div>
-        </div>
-      </div>
+    <button
+      @click="isOpen = !isOpen"
+      class="relative z-10 block h-8 mr-6  overflow-hidden  text-white focus:outline-none focus:border-white"
+    >
+      Account
+    </button>
+    <button
+      v-if="isOpen"
+      @click="isOpen = false"
+      tabindex="-1"
+      class="fixed inset-0 h-full w-full bg-black opacity-50 cursor-default"
+    ></button>
+    <div
+      v-if="isOpen"
+      class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl"
+    >
+      <a href="#" class="block px-4 py-2 text-gray-800" @click="signOut"
+        >Sign out</a
+      >
     </div>
   </header>
 </template>
 <script>
-export default {}
+import auth from '../utils/auth'
+
+export default {
+  data() {
+    return {
+      isOpen: false
+    }
+  },
+  methods: {
+    signOut() {
+      localStorage.removeItem('token')
+      localStorage.removeItem('currentUser')
+      auth.logoutUser()
+      this.$router.push('/')
+    },
+    error(message) {
+      swal('Sorry', message, 'error')
+    }
+  }
+}
 </script>
 <style scoped>
 .w-48 {

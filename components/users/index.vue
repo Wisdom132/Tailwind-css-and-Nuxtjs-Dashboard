@@ -4,12 +4,15 @@
       <div class="mt-5 mb-5">
         <h3 class="text-left text-xl pl-1">All Users</h3>
       </div>
-      <div class="bg-white">
+      <div v-if="loading">
+        <loader />
+      </div>
+      <div class="bg-white" v-else>
         <table class="table-auto w-full border-collapse">
           <thead class="bg-gray-300">
             <tr>
               <th class="px-4 py-2">Id</th>
-              <th class="px-4 py-2">Name</th>
+
               <th class="px-4 py-2">User Name</th>
               <th class="px-4 py-2">Email</th>
               <th class="px-4 py-2">Date Joined</th>
@@ -18,10 +21,10 @@
           <tbody>
             <tr v-for="(user, index) in users" :key="index">
               <td class="border px-4 py-2">{{ parseInt(index + 1) }}</td>
-              <td class="border px-4 py-2">{{ user.name }}</td>
+
               <td class="border px-4 py-2">{{ user.username }}</td>
               <td class="border px-4 py-2">{{ user.email }}</td>
-              <td class="border px-4 py-2">{{ user.dateCreated }}</td>
+              <td class="border px-4 py-2">{{ user.dateCreated | moment }}</td>
             </tr>
           </tbody>
         </table>
@@ -31,18 +34,32 @@
 </template>
 
 <script>
+import loader from '@/components/loader/loader'
+import moment from 'moment'
 export default {
+  components: {
+    loader
+  },
   data() {
     return {
-      users: []
+      users: [],
+      loading: false
+    }
+  },
+  filters: {
+    moment: function(date) {
+      return moment(date).format('MMMM Do YYYY')
     }
   },
   methods: {
     async getAllUsers() {
+      this.loading = true
       try {
         let response = await this.$axios.get('users/users')
         this.users = response.data
+        this.loading = false
       } catch (err) {
+        this.loading = false
         console.log(err)
       }
     }

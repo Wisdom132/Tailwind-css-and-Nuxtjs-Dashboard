@@ -50,17 +50,35 @@
         </nuxt-link>
       </div>
       <div class="group relative sidebar-item with-children mt-2">
-        <nuxt-link
-          to="/"
+        <a
+          @click="signOut"
           class="block xl:flex xl:items-center text-center xl:text-left shadow-light xl:shadow-none py-6 xl:py-2 xl:px-4 border-l-4 border-transparent hover:bg-gray-800"
         >
           <i class="mdi mdi-logout mdi-38px text-white px-2"></i>
           <div class="text-white text-base">Logout</div>
-        </nuxt-link>
+        </a>
       </div>
     </div>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {}
+  },
+  methods: {
+    signOut() {
+      localStorage.removeItem('token')
+      localStorage.removeItem('currentUser')
+      auth.logoutUser()
+      this.$router.push('/')
+    },
+    error(message) {
+      swal('Sorry', message, 'error')
+    }
+  }
+}
+</script>
 <style scoped>
 .sidebar-layout {
   position: fixed;

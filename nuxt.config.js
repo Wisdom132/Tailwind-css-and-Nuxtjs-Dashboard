@@ -42,7 +42,9 @@ export default {
     {
       src: '@/plugins/ckeditor',
       ssr: false
-    }
+    },
+    { src: '@/plugins/moment', ssr: false },
+    { src: '@/plugins/axios', ssr: false }
   ],
   /*
    ** Nuxt.js dev-modules
@@ -60,6 +62,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/pwa'
   ],
+
   tailwindcss: {
     configPath: '~/config/tailwind.config.js',
     cssPath: '~/assets/css/tailwind.css'

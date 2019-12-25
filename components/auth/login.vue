@@ -2,89 +2,24 @@
 <template>
   <div id="body">
     <div class="container" id="container">
-      <div class="form-container sign-up-container">
-        <form action="#">
-          <h1>Create Account</h1>
-          <div class="social-container">
-            <a href="#" class="social"
-              ><i class="mdi mdi-facebook-messenger"></i
-            ></a>
-            <a href="#" class="social"><i class="mdi mdi-twitter"></i></a>
-            <a href="#" class="social"><i class="mdi mdi-instagram"></i></a>
-          </div>
-          <span>or use your email for registration</span>
-          <div class="mb-4">
-            <label
-              class="block text-gray-700 text-left text-sm font-bold mb-2"
-              for="username"
-            >
-              Email
-            </label>
-            <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="username"
-              type="email"
-              placeholder="mail@mail.com"
-            />
-          </div>
-          <div class="mb-4">
-            <label
-              class="block text-gray-700 text-left text-sm font-bold mb-2"
-              for="username"
-            >
-              Username
-            </label>
-            <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="username"
-              type="text"
-              placeholder="Username"
-            />
-          </div>
-          <div class="mb-4">
-            <label
-              class="block text-gray-700 text-left text-sm font-bold mb-2"
-              for="username"
-            >
-              Password
-            </label>
-            <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="username"
-              type="text"
-              placeholder="*********"
-            />
-          </div>
-          <button
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="button"
-          >
-            Sign In
-          </button>
-        </form>
-      </div>
       <div class="form-container sign-in-container">
-        <form action="#">
-          <h1>Sign in</h1>
-          <div class="social-container">
-            <a href="#" class="social"
-              ><i class="mdi mdi-facebook-messenger"></i
-            ></a>
-            <a href="#" class="social"><i class="mdi mdi-twitter"></i></a>
-            <a href="#" class="social"><i class="mdi mdi-instagram"></i></a>
+        <form @submit.prevent="logUserIn">
+          <div class="mb-3" v-if="loading">
+            <loader />
           </div>
-          <span>or use your account</span>
-          <div class="mb-4">
+          <h1 class="mb-5 text-xl">Sign in</h1>
+
+          <div class="mb-4 mt-5">
             <label
               class="block text-gray-700 text-left text-sm font-bold mb-2"
               for="username"
+              >Username</label
             >
-              Username
-            </label>
             <input
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="username"
               type="text"
+              v-model="login.username"
               placeholder="Username"
             />
           </div>
@@ -92,20 +27,20 @@
             <label
               class="block text-gray-700 text-left text-sm font-bold mb-2"
               for="username"
+              >Password</label
             >
-              Password
-            </label>
             <input
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="username"
-              type="text"
+              type="password"
+              v-model="login.password"
               placeholder="**********"
             />
           </div>
 
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="button"
+            type="submit"
           >
             Sign In
           </button>
@@ -113,31 +48,9 @@
       </div>
       <div class="overlay-container">
         <div class="overlay">
-          <div class="overlay-panel overlay-left">
-            <h1>Welcome Back!</h1>
-            <p>
-              To keep connected with us please login with your personal info
-            </p>
-            <button
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              id="signIn"
-              type="button"
-            >
-              Sign In
-            </button>
-            <!-- <button class="ghost" id="signIn">Sign In</button> -->
-          </div>
           <div class="overlay-panel overlay-right">
             <h1>Hello, Friend!</h1>
             <p>Enter your personal details and start journey with us</p>
-            <button
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="button"
-              id="signUp"
-            >
-              Sign Up
-            </button>
-            <!-- <button class="ghost" id="signUp">Sign Up</button> -->
           </div>
         </div>
       </div>
@@ -145,20 +58,55 @@
   </div>
 </template>
 <script>
-if (process.client) {
-  const signUpButton = document.getElementById('signUp')
-  const signInButton = document.getElementById('signIn')
-  const container = document.getElementById('container')
+import swal from 'sweetalert'
+import loader from '@/components/loader/loader'
+import auth from '../../utils/auth'
+export default {
+  components: {
+    loader
+  },
+  created() {
+    if (auth.userIsLogged()) {
+      this.$router.push('/login')
+    }
+  },
+  data() {
+    return {
+      loading: false,
+      userLoggedIn: false,
+      login: {
+        username: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    async logUserIn() {
+      this.loading = true
+      try {
+        let response = await this.$axios.post('admin/login', this.login)
+        if (response.data.success == true) {
+          let token = response.data.token
+          localStorage.setItem('jwt', token)
 
-  signUpButton.addEventListener('click', () => {
-    container.classList.add('right-panel-active')
-  })
-
-  signInButton.addEventListener('click', () => {
-    container.classList.remove('right-panel-active')
-  })
+          this.loading = false
+          this.userLoggedIn = true
+          if (this.userLoggedIn) {
+            auth.loginUser(token)
+            this.$router.push('/dashboard')
+            swal('Success', 'Login Successful', 'success')
+          }
+        } else {
+          swal('Error', 'Login Error', 'error')
+        }
+      } catch (err) {
+        this.loading = false
+        swal('Error', 'Login Error', 'error')
+        console.log(err)
+      }
+    }
+  }
 }
-export default {}
 </script>
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
