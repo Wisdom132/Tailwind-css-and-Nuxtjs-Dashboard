@@ -7,9 +7,7 @@
             <div class="bg-white">
               <div
                 class="font-bold text-xl mb-2 border border-gray-300 bg-gray-100 py-2"
-              >
-                Add Custome Category
-              </div>
+              >Add Custome Category</div>
               <form
                 class="bg-white shadow-md rounded px-3 pt-6 pb-8 mb-4"
                 @submit.prevent="addNewCategory"
@@ -18,8 +16,7 @@
                   <label
                     class="block text-gray-700 text-sm text-left font-bold mb-2"
                     for="username"
-                    >Title</label
-                  >
+                  >Title</label>
                   <input
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="username"
@@ -33,8 +30,7 @@
                   <label
                     class="block text-gray-700 text-sm text-left font-bold mb-2"
                     for="username"
-                    >Description</label
-                  >
+                  >Description</label>
                   <textarea
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     placeholder="Your Category Description"
@@ -47,9 +43,7 @@
                   <button
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     type="submit"
-                  >
-                    Add
-                  </button>
+                  >Add</button>
                 </div>
               </form>
             </div>
@@ -67,7 +61,6 @@
                     <th class="px-4 py-2">Index</th>
                     <th class="px-4 py-2">Title</th>
                     <th class="px-4 py-2">Description</th>
-
                     <th class="px-4 py-2">Date Created</th>
                     <th class="px-4 py-2">Action</th>
                   </tr>
@@ -75,18 +68,15 @@
                 <tbody>
                   <tr v-for="(category, index) in categories" :key="index">
                     <td class="border px-4 py-2">{{ parseInt(index + 1) }}</td>
-                    <td class="border px-4 py-2">
-                      {{ category.title }}
-                    </td>
+                    <td class="border px-4 py-2">{{ category.title }}</td>
                     <td class="border px-4 py-2">{{ category.description }}</td>
                     <td class="border px-4 py-2">{{ category.dateCreated | moment }}</td>
 
                     <td class="border px-4 py-2">
                       <button
+                        @click="deleteCategory(category._id)"
                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
-                      >
-                        Delete
-                      </button>
+                      >Delete</button>
                     </td>
                   </tr>
                 </tbody>
@@ -103,17 +93,17 @@
 import loader from '@/components/loader/loader'
 import moment from 'moment'
 export default {
-  components:{
+  components: {
     loader
   },
-   filters: {
+  filters: {
     moment: function(date) {
       return moment(date).format('MMMM Do YYYY')
     }
   },
   data() {
     return {
-      loading:false,
+      loading: false,
       categories: [],
       category: {
         title: '',
@@ -142,6 +132,33 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    deleteCategory(id) {
+      swal({
+        title: 'Are you sure?',
+        text:
+          'Once deleted, you will not be able to recover this imaginary file!',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true
+      }).then((willDelete) => {
+        if (willDelete) {
+          this.$axios
+            .delete(`category/${id}`)
+            .then((response) => {
+              swal('Category Has been Deleted!', {
+                icon: 'success'
+              })
+              this.getAllCategories()
+            })
+            .catch((err) => {
+              console.log(err)
+              swal('Error', 'Something Went Wrong', 'error')
+            })
+        } else {
+          swal('Your imaginary file is safe!')
+        }
+      })
     }
   },
   created() {

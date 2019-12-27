@@ -71,7 +71,7 @@ export default {
       this.$router.push('/')
     },
     error(message) {
-      swal('Sorry', message, 'error')
+      swal('Error', message, 'error')
     }
   }
 }

@@ -22,17 +22,14 @@
             <td class="border px-4 py-2">{{ post.title }}</td>
             <td class="border px-4 py-2">{{ post.dateCreated | moment }}</td>
             <td class="border px-4 py-2">
-              <span v-for="(data, index) in post.tags" :key="index">
-                {{ data }}
-              </span>
+              <span v-for="(data, index) in post.tags" :key="index">{{ data }}</span>
             </td>
             <td class="border px-4 py-2">{{ post.category.title }}</td>
             <td class="border px-4 py-2">
               <button
+                @click="deletePost(post._id)"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
-              >
-                Delete
-              </button>
+              >Delete</button>
             </td>
           </tr>
         </tbody>
@@ -48,7 +45,7 @@ export default {
   components: {
     loader
   },
-   filters: {
+  filters: {
     moment: function(date) {
       return moment(date).format('MMMM Do YYYY')
     }
@@ -71,6 +68,33 @@ export default {
         this.loading = false
         console.log(err)
       }
+    },
+    deletePost(id) {
+      swal({
+        title: 'Are you sure?',
+        text:
+          'Once deleted, you will not be able to recover this imaginary file!',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true
+      }).then((willDelete) => {
+        if (willDelete) {
+          this.$axios
+            .delete(`blog/${id}`)
+            .then((response) => {
+              swal('Post Has been Deleted!', {
+                icon: 'success'
+              })
+              this.getBlogPost()
+            })
+            .catch((err) => {
+              console.log(err)
+              swal('Error', 'Something Went Wrong', 'error')
+            })
+        } else {
+          swal('Your imaginary file is safe!')
+        }
+      })
     }
   },
   created() {

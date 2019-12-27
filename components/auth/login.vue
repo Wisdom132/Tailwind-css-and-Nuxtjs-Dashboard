@@ -13,8 +13,7 @@
             <label
               class="block text-gray-700 text-left text-sm font-bold mb-2"
               for="username"
-              >Username</label
-            >
+            >Username</label>
             <input
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="username"
@@ -27,8 +26,7 @@
             <label
               class="block text-gray-700 text-left text-sm font-bold mb-2"
               for="username"
-              >Password</label
-            >
+            >Password</label>
             <input
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="username"
@@ -41,9 +39,7 @@
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
-          >
-            Sign In
-          </button>
+          >Sign In</button>
         </form>
       </div>
       <div class="overlay-container">
@@ -67,7 +63,7 @@ export default {
   },
   created() {
     if (auth.userIsLogged()) {
-      this.$router.push('/login')
+      this.$router.push('/')
     }
   },
   data() {
@@ -97,6 +93,7 @@ export default {
             swal('Success', 'Login Successful', 'success')
           }
         } else {
+          this.loading = false
           swal('Error', 'Login Error', 'error')
         }
       } catch (err) {

@@ -30,7 +30,7 @@ export default {
 
   created() {
     if (!auth.userIsLogged()) {
-      this.$router.push('/login')
+      this.$router.push('/')
     }
   }
 }
