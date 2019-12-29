@@ -22,7 +22,11 @@
             <td class="border px-4 py-2">{{ post.title }}</td>
             <td class="border px-4 py-2">{{ post.dateCreated | moment }}</td>
             <td class="border px-4 py-2">
-              <span v-for="(data, index) in post.tags" :key="index">{{ data }}</span>
+              <span v-for="(data, index) in post.tags" :key="index">
+                {{
+                data
+                }}
+              </span>
             </td>
             <td class="border px-4 py-2">{{ post.category.title }}</td>
             <td class="border px-4 py-2">
@@ -30,6 +34,11 @@
                 @click="deletePost(post._id)"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
               >Delete</button>
+
+              <button
+                @click="getDetails(post)"
+                class="modal-open bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
+              >View</button>
             </td>
           </tr>
         </tbody>
@@ -53,7 +62,9 @@ export default {
   data() {
     return {
       loading: false,
-      posts: []
+      posts: [],
+      time: 0,
+      duration: 5000
     }
   },
   methods: {
@@ -95,6 +106,9 @@ export default {
           swal('Your imaginary file is safe!')
         }
       })
+    },
+    getDetails(id) {
+      console.log(id)
     }
   },
   created() {
@@ -103,4 +117,12 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style>
+.modal {
+  transition: opacity 0.25s ease;
+}
+body.modal-active {
+  overflow-x: hidden;
+  overflow-y: visible !important;
+}
+</style>

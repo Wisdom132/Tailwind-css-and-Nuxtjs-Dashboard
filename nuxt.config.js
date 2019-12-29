@@ -39,6 +39,7 @@ export default {
    */
   plugins: [
     { src: '@/plugins/chart', ssr: false },
+    { src: '@/plugins/modal', ssr: false },
     {
       src: '@/plugins/ckeditor',
       ssr: false
