@@ -21,7 +21,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         href:
-          'http://cdn.materialdesignicons.com/4.5.95/css/materialdesignicons.min.css',
+          'https://cdn.materialdesignicons.com/4.5.95/css/materialdesignicons.min.css',
         rel: 'stylesheet'
       }
     ]
