@@ -17,6 +17,7 @@
             placeholder="Jane"
           />
         </div>
+
         <div class="w-full lg:w-1/4 sm:w-full px-3 mb-6 md:mb-0">
           <label
             class="block uppercase text-left tracking-wide text-gray-700 text-xs font-bold mb-2"

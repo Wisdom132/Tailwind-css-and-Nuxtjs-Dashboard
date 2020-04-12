@@ -1,17 +1,13 @@
 <template>
-  <header
-    class="fixed color z-50 h-16 w-full  shadow flex items-center justify-between"
-  >
-    <div class="flex items-center h-full ">
+  <header class="fixed color z-50 h-16 w-full shadow flex items-center justify-between">
+    <div class="flex items-center h-full">
       <div
         class="flex items-center text-center h-full w-48 border-r bg-midnightblue-500 border-grey-dark"
       >
-        <span class="w-full text-white text-sm uppercase font-extrabold "
-          >WEBARTISAN.BE</span
-        >
+        <span class="w-full text-white text-sm uppercase font-extrabold">FX Admin</span>
       </div>
       <div class="flex items-center w-64">
-        <form action="" class="w-full h-full px-3 flex items-center">
+        <form action class="w-full h-full px-3 flex items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -34,23 +30,16 @@
     </div>
     <button
       @click="isOpen = !isOpen"
-      class="relative z-10 block h-8 mr-6  overflow-hidden  text-white focus:outline-none focus:border-white"
-    >
-      Account
-    </button>
+      class="relative z-10 block h-8 mr-6 overflow-hidden text-white focus:outline-none focus:border-white"
+    >Account</button>
     <button
       v-if="isOpen"
       @click="isOpen = false"
       tabindex="-1"
       class="fixed inset-0 h-full w-full bg-black opacity-50 cursor-default"
     ></button>
-    <div
-      v-if="isOpen"
-      class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl"
-    >
-      <a href="#" class="block px-4 py-2 text-gray-800" @click="signOut"
-        >Sign out</a
-      >
+    <div v-if="isOpen" class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl">
+      <a href="#" class="block px-4 py-2 text-gray-800" @click="signOut">Sign out</a>
     </div>
   </header>
 </template>

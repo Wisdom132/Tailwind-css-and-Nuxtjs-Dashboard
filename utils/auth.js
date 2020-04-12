@@ -5,7 +5,6 @@ export default {
   userIsLogged() {
     if (process.browser) {
       let token = localStorage.getItem('jwt')
-      console.log(token)
       if (token) {
         let parseToken = VueJwtDecode.decode(token)
 

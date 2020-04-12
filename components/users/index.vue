@@ -12,18 +12,25 @@
           <thead class="bg-gray-300">
             <tr>
               <th class="px-4 py-2">Id</th>
-
-              <th class="px-4 py-2">User Name</th>
+              <th class="px-4 py-2">Name</th>
               <th class="px-4 py-2">Email</th>
+              <th class="px-4 py-2">Phone</th>
+              <th class="px-4 py-2">User Name</th>
+              <th class="px-4 py-2">Status</th>
               <th class="px-4 py-2">Date Joined</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(user, index) in users" :key="index">
               <td class="border px-4 py-2">{{ parseInt(index + 1) }}</td>
-
-              <td class="border px-4 py-2">{{ user.username }}</td>
+              <td class="border px-4 py-2">{{ user.name }}</td>
               <td class="border px-4 py-2">{{ user.email }}</td>
+              <td class="border px-4 py-2">{{ user.phone }}</td>
+              <td class="border px-4 py-2">{{ user.username }}</td>
+              <td class="border px-4 py-2">
+                <div v-if="user.isVerified">Verified</div>
+                <div v-else>Not Verifed</div>
+              </td>
               <td class="border px-4 py-2">{{ user.dateCreated | moment }}</td>
             </tr>
           </tbody>

@@ -17,7 +17,7 @@
         </thead>
 
         <tbody>
-          <tr v-for="(post, index) in posts" :key="index">
+          <tr v-for="(post, index) in drafts" :key="index">
             <td class="border px-4 py-2">{{ parseInt(index + 1) }}</td>
             <td class="border px-4 py-2">{{ post.title }}</td>
             <td class="border px-4 py-2">{{ post.dateCreated | moment }}</td>
@@ -31,12 +31,12 @@
             <td class="border px-4 py-2">{{ post.category.title }}</td>
             <td class="border px-4 py-2">
               <button
-                @click="deletePost(post._id)"
+                @click="deleteDraft(post._id)"
                 class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded"
               >Delete</button>
 
               <router-link
-                :to="'/blog/'+post._id"
+                :to="'/drafts/'+post._id"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
               >View</router-link>
 
@@ -49,18 +49,18 @@
         </tbody>
       </table>
     </div>
-    <editpost />
+    <editdraft />
   </section>
 </template>
 
 <script>
-import editpost from './editblogpost'
+import editdraft from './editdraft'
 import loader from '@/components/loader/loader'
 import moment from 'moment'
 export default {
   components: {
     loader,
-    editpost
+    editdraft
   },
   filters: {
     moment: function(date) {
@@ -70,19 +70,19 @@ export default {
   data() {
     return {
       loading: false,
-      posts: [],
+      drafts: [],
       time: 0,
       duration: 5000
     }
   },
   methods: {
-    async getBlogPost() {
+    async getAllDrafts() {
       this.loading = true
       try {
-        let response = await this.$axios.get('blog')
-        this.posts = response.data.data
+        let response = await this.$axios.get('draft')
+        this.drafts = response.data.data
         this.loading = false
-        console.log(this.posts)
+        console.log(this.drafts)
       } catch (err) {
         this.loading = false
         console.log(err)
@@ -96,7 +96,7 @@ export default {
       body.classList.toggle('modal-active')
     },
 
-    deletePost(id) {
+    deleteDraft(id) {
       swal({
         title: 'Are you sure?',
         text:
@@ -122,13 +122,10 @@ export default {
           swal('Your imaginary file is safe!')
         }
       })
-    },
-    getDetails(id) {
-      console.log(id)
     }
   },
   created() {
-    this.getBlogPost()
+    this.getAllDrafts()
   }
 }
 </script>

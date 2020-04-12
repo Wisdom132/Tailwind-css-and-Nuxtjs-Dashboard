@@ -50,6 +50,15 @@
         </nuxt-link>
       </div>
       <div class="group relative sidebar-item with-children mt-2">
+        <nuxt-link
+          to="/drafts"
+          class="block xl:flex xl:items-center text-center xl:text-left shadow-light xl:shadow-none py-6 xl:py-2 xl:px-4 border-l-4 border-transparent hover:bg-gray-800"
+        >
+          <i class="mdi mdi-account mdi-38px text-white px-2"></i>
+          <div class="text-white text-base">Drafts</div>
+        </nuxt-link>
+      </div>
+      <div class="group relative sidebar-item with-children mt-2">
         <a
           @click="signOut"
           class="block xl:flex xl:items-center text-center xl:text-left shadow-light xl:shadow-none py-6 xl:py-2 xl:px-4 border-l-4 border-transparent hover:bg-gray-800"
