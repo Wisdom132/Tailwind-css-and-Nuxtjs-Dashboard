@@ -12,6 +12,8 @@
             <th class="px-4 py-2">Date Posted</th>
             <th class="px-4 py-2">Tags</th>
             <th class="px-4 py-2">Category</th>
+            <th class="px-4 py-2">Status</th>
+            <th class="px-4 py-2">Admin Status</th>
             <th class="px-4 py-2">Action</th>
           </tr>
         </thead>
@@ -29,6 +31,8 @@
               </span>
             </td>
             <td class="border px-4 py-2">{{ post.category.title }}</td>
+            <td class="border px-4 py-2">{{ post.isCompleted?"Completed":"Not Completed" }}</td>
+            <td class="border px-4 py-2">{{ post.isPublished?"Published":"Not Published" }}</td>
             <td class="border px-4 py-2">
               <button
                 @click="deleteDraft(post._id)"
@@ -41,9 +45,14 @@
               >View</router-link>
 
               <button
+                @click="publish(post._id)"
+                class="modal-open bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-2 rounded"
+              >Publish</button>
+
+              <!-- <button
                 @click="toggleModal"
                 class="modal-open bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-2 rounded"
-              >Edit</button>
+              >Edit</button>-->
             </td>
           </tr>
         </tbody>
@@ -86,6 +95,24 @@ export default {
       } catch (err) {
         this.loading = false
         console.log(err)
+      }
+    },
+
+    async publish(id) {
+      this.loading = true
+      try {
+        let response = await this.$axios.post(`draft/add-draft-to-blog/${id}`)
+        this.loading = false
+        console.log(response)
+        swal('Success', 'Draft Published', 'success')
+      } catch (err) {
+        this.loading = false
+        if (err.response.data.msg) {
+          swal('Error', err.response.data.msg, 'error')
+        } else {
+          swal('Error', 'Something Went Wrong', 'error')
+        }
+        console.log()
       }
     },
     toggleModal() {

@@ -80,7 +80,7 @@ export default {
       this.loading = true
       try {
         let response = await this.$axios.get('blog')
-        this.posts = response.data.data
+        this.posts = response.data.data.reverse()
         this.loading = false
         console.log(this.posts)
       } catch (err) {
