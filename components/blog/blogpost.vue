@@ -41,7 +41,7 @@
               >View</router-link>
 
               <button
-                @click="toggleModal"
+                @click="toggleModal(post)"
                 class="modal-open bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-2 rounded"
               >Edit</button>
             </td>
@@ -49,7 +49,7 @@
         </tbody>
       </table>
     </div>
-    <editpost />
+    <editpost :editableblog="editableblog" />
   </section>
 </template>
 
@@ -69,6 +69,7 @@ export default {
   },
   data() {
     return {
+      editableblog: {},
       loading: false,
       posts: [],
       time: 0,
@@ -88,7 +89,8 @@ export default {
         console.log(err)
       }
     },
-    toggleModal() {
+    toggleModal(id) {
+      this.editableblog = id
       const body = document.querySelector('body')
       const modal = document.querySelector('.modal')
       modal.classList.toggle('opacity-0')
