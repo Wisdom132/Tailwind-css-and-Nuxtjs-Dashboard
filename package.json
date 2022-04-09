@@ -21,7 +21,7 @@
     "chart.js": "^2.9.3",
     "dotenv": "^8.2.0",
     "hchs-vue-charts": "^1.2.8",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "nuxt": "^2.0.0",
     "sweetalert": "^2.1.2",
     "vue-jwt-decode": "^0.1.0",
